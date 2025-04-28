@@ -74,7 +74,7 @@ app.get('/api/trainers', (req, res) => {
 // Add a new trainer
 app.post('/api/trainers', (req, res) => {
   const { name, specialty } = req.body;
-  db.run(INSERT INTO trainers (name, specialty) VALUES (?, ?),
+  db.run('INSERT INTO trainers (name, specialty) VALUES (?, ?)',
     [name, specialty],
     function(err) {
       if (err) {
@@ -93,5 +93,5 @@ app.get('/', (req, res) => {
 
 // Start Server
 app.listen(PORT, () => {
-  console.log(Server running on port ${PORT});
+  console.log('Server running on port ${PORT})';
 });
