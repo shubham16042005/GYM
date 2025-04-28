@@ -48,7 +48,7 @@ app.get('/api/members', (req, res) => {
 // Add a new member
 app.post('/api/members', (req, res) => {
   const { name, age, plan } = req.body;
-  db.run(INSERT INTO members (name, age, plan) VALUES (?, ?, ?),
+  db.run('INSERT INTO members (name, age, plan) VALUES (?, ?, ?)',
     [name, age, plan],
     function(err) {
       if (err) {
