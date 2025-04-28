@@ -18,8 +18,10 @@ const db = new Low(adapter);
 
 async function initDB() {
   await db.read();
-  db.data ||= { members: [], trainers: [] };
+  if(!db.data){
+  db.data = { members: [], trainers: [] };
   await db.write();
+  }
 }
 initDB();
 
