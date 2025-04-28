@@ -53,7 +53,7 @@ app.post('/api/members', (req, res) => {
   const { name, age, plan } = req.body;
   
   db.run(
-   ' INSERT INTO members (name, age, plan) VALUES (?, ?, ?)',
+    'INSERT INTO members (name, age, plan) VALUES (?, ?, ?)',
     [name, age, plan],
     function(err) {
       if (err) {
@@ -100,5 +100,5 @@ app.get('/', (req, res) => {
 
 // Start Server
 app.listen(PORT, () => {
-  console.log('Server running on port ${PORT}');
+  console.log(`Server running on port ${PORT}`);
 });
