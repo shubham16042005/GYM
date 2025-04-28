@@ -1,7 +1,7 @@
 {
-  "name": "gym-management-lowdb",
+  "name": "gym-management-sqlite",
   "version": "1.0.0",
-  "description": "Gym Management System using LowDB",
+  "description": "FitLife Gym Management System with SQLite",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -9,7 +9,6 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "lowdb": "^6.0.1",
-    "nanoid": "^4.0.0"
+    "sqlite3": "^5.1.2"
   }
-}
+} 
