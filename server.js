@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const { Low } = require('lowdb');
-const { JSONFile } = require('lowdb/node');
+const { LowSync, JSONFileSync  } = require('lowdb');
 const { nanoid } = require('nanoid');
+const fs = require('fs');
 const path = require('path');
 
 const app = express();
