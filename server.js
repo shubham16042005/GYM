@@ -3,6 +3,7 @@ const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
+// App Setup
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -10,13 +11,14 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-// SQLite3 Database setup
+// Database Connection
 const db = new sqlite3.Database('./gym.db', (err) => {
   if (err) {
-    console.error('Error opening database', err.message);
+    console.error('Error opening database:', err.message);
   } else {
     console.log('Connected to SQLite database.');
 
+    // Create Members Table
     db.run(`CREATE TABLE IF NOT EXISTS members (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
@@ -24,6 +26,7 @@ const db = new sqlite3.Database('./gym.db', (err) => {
       plan TEXT NOT NULL
     )`);
 
+    // Create Trainers Table
     db.run(`CREATE TABLE IF NOT EXISTS trainers (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
@@ -36,62 +39,66 @@ const db = new sqlite3.Database('./gym.db', (err) => {
 
 // Get all members
 app.get('/api/members', (req, res) => {
-  db.all("SELECT * FROM members", [], (err, rows) => {
+  db.all(SELECT * FROM members, [], (err, rows) => {
     if (err) {
       res.status(500).json({ error: err.message });
-      return;
+    } else {
+      res.json(rows);
     }
-    res.json(rows);
   });
 });
 
 // Add a new member
 app.post('/api/members', (req, res) => {
   const { name, age, plan } = req.body;
-  db.run('INSERT INTO members (name, age, plan) VALUES (?, ?, ?)',
+  
+  db.run(
+    INSERT INTO members (name, age, plan) VALUES (?, ?, ?),
     [name, age, plan],
     function(err) {
       if (err) {
         res.status(400).json({ error: err.message });
-        return;
+      } else {
+        res.status(201).json({ id: this.lastID, name, age, plan });
       }
-      res.status(201).json({ id: this.lastID, name, age, plan });
     }
   );
 });
 
 // Get all trainers
 app.get('/api/trainers', (req, res) => {
-  db.all("SELECT * FROM trainers", [], (err, rows) => {
+  db.all(SELECT * FROM trainers, [], (err, rows) => {
     if (err) {
       res.status(500).json({ error: err.message });
-      return;
+    } else {
+      res.json(rows);
     }
-    res.json(rows);
   });
 });
 
 // Add a new trainer
 app.post('/api/trainers', (req, res) => {
   const { name, specialty } = req.body;
-  db.run('INSERT INTO trainers (name, specialty) VALUES (?, ?)',
+  
+  db.run(
+    INSERT INTO trainers (name, specialty) VALUES (?, ?),
     [name, specialty],
     function(err) {
       if (err) {
         res.status(400).json({ error: err.message });
-        return;
+      } else {
+        res.status(201).json({ id: this.lastID, name, specialty });
       }
-      res.status(201).json({ id: this.lastID, name, specialty });
     }
   );
 });
 
-// Serve Frontend
+// Serve Frontend HTML
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'gym-management-2.html'));
 });
 
 // Start Server
 app.listen(PORT, () => {
-  console.log('Server running on port ${PORT})';
+  console.log(Server running on port ${PORT});
 });
