@@ -39,7 +39,7 @@ const db = new sqlite3.Database('./gym.db', (err) => {
 
 // Get all members
 app.get('/api/members', (req, res) => {
-  db.all(SELECT * FROM members, [], (err, rows) => {
+  db.all('SELECT * FROM members', [], (err, rows) => {
     if (err) {
       res.status(500).json({ error: err.message });
     } else {
@@ -53,7 +53,7 @@ app.post('/api/members', (req, res) => {
   const { name, age, plan } = req.body;
   
   db.run(
-    INSERT INTO members (name, age, plan) VALUES (?, ?, ?),
+   ' INSERT INTO members (name, age, plan) VALUES (?, ?, ?)',
     [name, age, plan],
     function(err) {
       if (err) {
@@ -67,7 +67,7 @@ app.post('/api/members', (req, res) => {
 
 // Get all trainers
 app.get('/api/trainers', (req, res) => {
-  db.all(SELECT * FROM trainers, [], (err, rows) => {
+  db.all('SELECT * FROM trainers', [], (err, rows) => {
     if (err) {
       res.status(500).json({ error: err.message });
     } else {
@@ -81,7 +81,7 @@ app.post('/api/trainers', (req, res) => {
   const { name, specialty } = req.body;
   
   db.run(
-    INSERT INTO trainers (name, specialty) VALUES (?, ?),
+    'INSERT INTO trainers (name, specialty) VALUES (?, ?)',
     [name, specialty],
     function(err) {
       if (err) {
@@ -100,5 +100,5 @@ app.get('/', (req, res) => {
 
 // Start Server
 app.listen(PORT, () => {
-  console.log(Server running on port ${PORT});
+  console.log('Server running on port ${PORT}');
 });
