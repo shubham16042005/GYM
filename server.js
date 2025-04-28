@@ -17,6 +17,8 @@ const adapter = new JSONFile('db.json');
 const db = new Low(adapter);
 
 async function initDB() {
+  const dbFileExists =fs.existsSync('db.json',JSON.stringify({members:[],trainers:[]},null,2));
+}
   await db.read();
   if(!db.data){
   db.data = { members: [], trainers: [] };
