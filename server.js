@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const { LowSync, JSONFileSync  } = require('lowdb');
+const { Low } = require('lowdb');
+const { JSONFile } = require('lowdb/node');
 const { nanoid } = require('nanoid');
-const fs = require('fs');
 const path = require('path');
 
 const app = express();
@@ -17,13 +17,9 @@ const adapter = new JSONFile('db.json');
 const db = new Low(adapter);
 
 async function initDB() {
-  const dbFileExists =fs.existsSync('db.json',JSON.stringify({members:[],trainers:[]},null,2));
-}
   await db.read();
-  if(!db.data){
-  db.data = { members: [], trainers: [] };
+  db.data ||= { members: [], trainers: [] };
   await db.write();
-  }
 }
 initDB();
 
